@@ -10,22 +10,23 @@ using UnitCode = std::uint8_t;
 class Device
 {
 public:
-  HouseCode  house_code {HouseCode::INVALID};
-  UnitCode   unit_code {0};
-
   char houseName() {
     if (house_code == HouseCode::INVALID) return '-';
 
     return static_cast<int>(house_code) - static_cast<int>(HouseCode::A) + 'A';
   };
 
-  void dump();
+  virtual void dump();
+
+protected:
+  HouseCode  house_code {HouseCode::INVALID};
+  UnitCode   unit_code {0};
+  
 };
 
-class Lamp
+class Lamp : public Device
 {
 public:
-  Device    device;
   bool      state {false};
 
   //static std::unique_ptr<Lamp> create();
@@ -34,6 +35,6 @@ public:
   void      on();
   void      off();
 
-  void dump();
+  void dump() override;
 };
 

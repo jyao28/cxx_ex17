@@ -11,7 +11,7 @@ void Device::dump()
 
 void Lamp::dump()
 {
-  device.dump();
+  Device::dump();
   std::cout << "State:      " << ((state) ? "On" : "Off") << std::endl;
 }
 
@@ -19,8 +19,8 @@ void Lamp::dump()
 Lamp Lamp::make_lamp()
 {
   Lamp lamp;
-  lamp.device.house_code = static_cast<HouseCode>((rand()%16)+1);
-  lamp.device.unit_code = static_cast<UnitCode>((rand()%4)+1);
+  lamp.house_code = static_cast<HouseCode>((rand()%16)+1);
+  lamp.unit_code = static_cast<UnitCode>((rand()%4)+1);
   lamp.state = false;
 
   return lamp;
@@ -30,14 +30,17 @@ Lamp Lamp::make_lamp()
 void Lamp::on()
 {
   state = true;
-  std::cout << "Lamp(" << device.houseName() << ") has been turned ON." << std::endl;
+  std::cout << "Lamp(" << houseName() << ") has been turned ON." << std::endl;
 }
 void Lamp::off()
 {
   state = false;
-  std::cout << "Lamp(" << device.houseName() << ") has been turned OFF." << std::endl;
+  std::cout << "Lamp(" << houseName() << ") has been turned OFF." << std::endl;
 }
 
+
+///////////////////////////
+// C++ testing
 
 int f1(int x, int)
 {
@@ -53,6 +56,3 @@ int f2(int x)
 {
   return f1(x) + f1(2);
 }
-
-
-

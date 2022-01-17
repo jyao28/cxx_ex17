@@ -1,9 +1,13 @@
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 #include "device.h"
 
 int main()
 {
+  // initialize random seed
+  srand (clock());
 
   Lamp lamp {Lamp::make_lamp()};
   Lamp lamp2 {Lamp::make_lamp()};

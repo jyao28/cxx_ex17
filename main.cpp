@@ -45,11 +45,11 @@ int main()
 
   std::cout << "Ex2 and Ex3 ----------" << std::endl;
 
-  Home::Lamp lamp = Home::Lamp::make_lamp();
-  Home::Lamp lamp2 = Home::Lamp::make_lamp();
-  Home::Lamp lamp3 = Home::Lamp::make_lamp();
+  Home::Lamp lamp = Home::Lamp::make_rand_lamp();
+  Home::Lamp lamp2 = Home::Lamp::make_rand_lamp();
+  Home::Lamp lamp3 = Home::Lamp::make_rand_lamp();
 
-  lamp.dump();
+  lamp.status();
 
   lamp.on();
   lamp2.off();
@@ -57,16 +57,25 @@ int main()
 
   std::cout << "Ex4 ----------" << std::endl;
 
-  LampArray lamps {};
+  LampArray lamps { {
+      {{Home::HouseCode::A, 1}, false},
+      {{Home::HouseCode::B, 1}, false},
+      {{Home::HouseCode::C, 3}, false} 
+    }
+  };
 
-  for (auto& lamp : lamps)
-  {
-    lamp = Home::Lamp::make_lamp();
-    lamp.off();
-  }
+  // for (auto& lamp : lamps)
+  // {
+  //   lamp = Home::Lamp::make_rand_lamp();
+  //   lamp.off();
+  // }
+
+  std::cout << "Ex6 ----------" << std::endl;
+
+  lamps[0].set_id(std::pair<Home::HouseCode, Home::UnitCode>(Home::HouseCode::A, 1));
+  lamps[2].off();
 
   all_lamps_on(lamps);
-  lamps[2].off();
 
   std::cout << "Number of lamps ON: " << num_lamps_on(lamps) << std::endl;
 

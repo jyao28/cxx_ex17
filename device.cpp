@@ -5,29 +5,35 @@
 
 namespace Home {
 
-void Device::dump()
+void Device::set_id(const std::pair<HouseCode, UnitCode>& id)
+{
+  house_code = id.first;
+  unit_code  = id.second;
+}
+
+void Device::set_id(HouseCode house_code, UnitCode unit_code)
+{
+  this->house_code = house_code;
+  this->unit_code = unit_code;
+}
+
+void Device::status()
 {
   std::cout << "House Code: " << houseName() << std::endl
             << "Unit Code:  " << static_cast<int>(unit_code) << std::endl;
 }
 
-void Lamp::dump()
+void Lamp::status()
 {
-  Device::dump();
+  Device::status();
   std::cout << "State:      " << ((state) ? "On" : "Off") << std::endl;
 }
 
 
-Lamp Lamp::make_lamp()
+Lamp Lamp::make_rand_lamp()
 {
-  // Lamp lamp;
-  // lamp.house_code = static_cast<HouseCode>((rand()%17));
-  // lamp.unit_code = static_cast<UnitCode>((rand()%5));
-  // lamp.state = false;
-  // return lamp;
-
   return Lamp {
-    Device{  static_cast<HouseCode>((rand()%16)+1), 
+    {  static_cast<HouseCode>((rand()%16)+1), 
        static_cast<UnitCode>((rand()%4)+1) },
     false
     };

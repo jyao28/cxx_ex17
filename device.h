@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <string>
+#include <utility>
 
 namespace Home {
 
@@ -15,18 +16,13 @@ using UnitCode = std::uint8_t;
 class Device
 {
 public:
-  Device() {}
+  Device() = default;
 
-  Device(const Device& device) :
-    house_code(device.house_code),
-    unit_code(device.unit_code)
-  {
-    
-  }
+  Device(const Device& device) = default;
 
   Device(HouseCode  hcode, UnitCode   ucode) :
-    house_code(hcode),
-    unit_code(ucode)
+    house_code {hcode},
+    unit_code  {ucode}
   {
     
   }
@@ -48,9 +44,17 @@ public:
     return house_name + unit_code_str;
   }
 
-  virtual void dump();
+  std::pair<HouseCode, UnitCode> id()
+  {
+    return std::pair<HouseCode, UnitCode>(house_code, unit_code);
+  }
 
-protected:
+  void set_id(const std::pair<HouseCode, UnitCode>& id);
+  void set_id(HouseCode house_code, UnitCode unit_code);
+
+  virtual void status();
+
+private:
   HouseCode  house_code {HouseCode::INVALID};
   UnitCode   unit_code {0};
 
@@ -59,23 +63,26 @@ protected:
 class Lamp : public Device
 {
 public:
-  Lamp() {}
+  Lamp() = default;
+
+  Lamp(const Lamp&) = default;
+
   Lamp(const Device& device, bool s) :
-    Device(device),
-    state(s)
+    Device {device},
+    state {s}
   {
 
   }
 
 
   //static std::unique_ptr<Lamp> create();
-  static Lamp make_lamp();
+  static Lamp make_rand_lamp();
 
   bool      is_on() const { return state; }
   void      on();
   void      off();
 
-  void dump() override;
+  void      status() override;
 
 private:
   bool      state {false};

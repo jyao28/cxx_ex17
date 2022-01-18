@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cstdlib>
 
+namespace Home {
+
 void Device::dump()
 {
   std::cout << "House Code: " << houseName() << std::endl
@@ -43,6 +45,7 @@ void Lamp::off()
   std::cout << "Lamp(" << device_name() << ") has been turned OFF." << std::endl;
 }
 
+}
 
 ///////////////////////////
 // C++ testing

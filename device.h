@@ -2,6 +2,9 @@
 #include <cstdint>
 #include <string>
 
+namespace Home {
+
+
 enum class HouseCode
 { 
   INVALID, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P
@@ -68,6 +71,7 @@ public:
   //static std::unique_ptr<Lamp> create();
   static Lamp make_lamp();
 
+  bool      is_on() const { return state; }
   void      on();
   void      off();
 
@@ -78,3 +82,4 @@ private:
 
 };
 
+}

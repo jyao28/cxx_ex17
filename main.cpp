@@ -6,7 +6,7 @@
 #include "device.h"
 
 constexpr size_t sz {4};
-using LampArray = std::array<Lamp, sz>;
+using LampArray = std::array<Home::Lamp, sz>;
 
 void all_lamps_on(LampArray& lamps)
 {
@@ -24,6 +24,20 @@ void all_lamps_off(LampArray& lamps)
   }
 }
 
+uint num_lamps_on(const LampArray& lamps)
+{
+  uint count {0};
+  for (auto& lamp : lamps)
+  {
+    if (lamp.is_on())
+    {
+      ++count;
+    }
+  }
+
+  return count;
+}
+
 int main()
 {
   // initialize random seed
@@ -31,9 +45,9 @@ int main()
 
   std::cout << "Ex2 and Ex3 ----------" << std::endl;
 
-  Lamp lamp = Lamp::make_lamp();
-  Lamp lamp2 = Lamp::make_lamp();
-  Lamp lamp3 = Lamp::make_lamp();
+  Home::Lamp lamp = Home::Lamp::make_lamp();
+  Home::Lamp lamp2 = Home::Lamp::make_lamp();
+  Home::Lamp lamp3 = Home::Lamp::make_lamp();
 
   lamp.dump();
 
@@ -47,11 +61,14 @@ int main()
 
   for (auto& lamp : lamps)
   {
-    lamp = Lamp::make_lamp();
+    lamp = Home::Lamp::make_lamp();
     lamp.off();
   }
 
   all_lamps_on(lamps);
+  lamps[2].off();
+
+  std::cout << "Number of lamps ON: " << num_lamps_on(lamps) << std::endl;
 
   return 0;
 }

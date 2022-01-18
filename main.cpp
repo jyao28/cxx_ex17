@@ -5,9 +5,10 @@
 
 #include "device.h"
 
-constexpr size_t sz {8};
+constexpr size_t sz {4};
+using LampArray = std::array<Lamp, sz>;
 
-void all_lamps_on(std::array<Lamp, sz>& lamps)
+void all_lamps_on(LampArray& lamps)
 {
   for (auto& lamp : lamps)
   {
@@ -15,7 +16,7 @@ void all_lamps_on(std::array<Lamp, sz>& lamps)
   }
 }
 
-void all_lamps_off(std::array<Lamp, sz>& lamps)
+void all_lamps_off(LampArray& lamps)
 {
   for (auto& lamp : lamps)
   {
@@ -42,7 +43,7 @@ int main()
 
   std::cout << "Ex4 ----------" << std::endl;
 
-  std::array<Lamp, sz> lamps {};
+  LampArray lamps {};
 
   for (auto& lamp : lamps)
   {

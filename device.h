@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <string>
 
 enum class HouseCode
 { 
@@ -16,18 +17,24 @@ public:
     return static_cast<int>(house_code) - static_cast<int>(HouseCode::A) + 'A';
   };
 
+  std::string device_name()
+  {
+    if (house_code == HouseCode::INVALID) return "-";
+
+    return std::string(houseName() + std::to_string(unit_code));
+  }
+
   virtual void dump();
 
 protected:
   HouseCode  house_code {HouseCode::INVALID};
   UnitCode   unit_code {0};
-  
+
 };
 
 class Lamp : public Device
 {
 public:
-  bool      state {false};
 
   //static std::unique_ptr<Lamp> create();
   static Lamp make_lamp();
@@ -36,5 +43,9 @@ public:
   void      off();
 
   void dump() override;
+
+private:
+  bool      state {false};
+
 };
 

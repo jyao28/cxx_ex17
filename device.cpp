@@ -22,20 +22,25 @@ Lamp Lamp::make_lamp()
   lamp.house_code = static_cast<HouseCode>((rand()%16)+1);
   lamp.unit_code = static_cast<UnitCode>((rand()%4)+1);
   lamp.state = false;
-
   return lamp;
+
+  // return Lamp {
+  //   //{  static_cast<HouseCode>((rand()%16)+1), 
+  //   //   static_cast<UnitCode>((rand()%4)+1) },
+  //   false
+  //   };
 }
 
 
 void Lamp::on()
 {
   state = true;
-  std::cout << "Lamp(" << houseName() << ") has been turned ON." << std::endl;
+  std::cout << "Lamp(" << device_name() << ") has been turned ON." << std::endl;
 }
 void Lamp::off()
 {
   state = false;
-  std::cout << "Lamp(" << houseName() << ") has been turned OFF." << std::endl;
+  std::cout << "Lamp(" << device_name() << ") has been turned OFF." << std::endl;
 }
 
 

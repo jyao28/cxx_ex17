@@ -18,17 +18,17 @@ void Lamp::dump()
 
 Lamp Lamp::make_lamp()
 {
-  Lamp lamp;
-  lamp.house_code = static_cast<HouseCode>((rand()%16)+1);
-  lamp.unit_code = static_cast<UnitCode>((rand()%4)+1);
-  lamp.state = false;
-  return lamp;
+  // Lamp lamp;
+  // lamp.house_code = static_cast<HouseCode>((rand()%17));
+  // lamp.unit_code = static_cast<UnitCode>((rand()%5));
+  // lamp.state = false;
+  // return lamp;
 
-  // return Lamp {
-  //   //{  static_cast<HouseCode>((rand()%16)+1), 
-  //   //   static_cast<UnitCode>((rand()%4)+1) },
-  //   false
-  //   };
+  return Lamp {
+    Device{  static_cast<HouseCode>((rand()%16)+1), 
+       static_cast<UnitCode>((rand()%4)+1) },
+    false
+    };
 }
 
 

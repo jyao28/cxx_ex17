@@ -1,3 +1,4 @@
+#pragma once
 #include <cstdint>
 #include <string>
 
@@ -11,6 +12,22 @@ using UnitCode = std::uint8_t;
 class Device
 {
 public:
+  Device() {}
+
+  Device(const Device& device) :
+    house_code(device.house_code),
+    unit_code(device.unit_code)
+  {
+    
+  }
+
+  Device(HouseCode  hcode, UnitCode   ucode) :
+    house_code(hcode),
+    unit_code(ucode)
+  {
+    
+  }
+
   char houseName() {
     if (house_code == HouseCode::INVALID) return '-';
 
@@ -19,9 +36,13 @@ public:
 
   std::string device_name()
   {
-    if (house_code == HouseCode::INVALID) return "-";
+    std::string house_name { houseName() };
+    std::string unit_code_str = 
+      (unit_code >= 1 && unit_code <= 16) ?
+        std::to_string(unit_code) :
+        "-";
 
-    return std::string(houseName() + std::to_string(unit_code));
+    return house_name + unit_code_str;
   }
 
   virtual void dump();
@@ -35,6 +56,14 @@ protected:
 class Lamp : public Device
 {
 public:
+  Lamp() {}
+  Lamp(const Device& device, bool s) :
+    Device(device),
+    state(s)
+  {
+
+  }
+
 
   //static std::unique_ptr<Lamp> create();
   static Lamp make_lamp();

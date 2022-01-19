@@ -4,6 +4,9 @@
 #include <string_view>
 #include <utility>
 #include <array>
+#include <iostream>
+
+constexpr bool dbg_func_trace {true};
 
 namespace Home {
 
@@ -20,7 +23,7 @@ using UnitCode = std::uint8_t;
 class Device
 {
 public:
-  Device() = default;
+  Device() = delete;
 
   Device(const Device& device) = default;
 
@@ -48,14 +51,13 @@ public:
     return std::pair<HouseCode, UnitCode>(house_code, unit_code);
   }
 
-  void set_id(const std::pair<HouseCode, UnitCode>& id);
-  void set_id(HouseCode house_code, UnitCode unit_code);
+  void status() const;
 
-  virtual void status() const;
+  //void set_id(const std::pair<HouseCode, UnitCode>& id);
+  //void set_id(HouseCode house_code, UnitCode unit_code);
 
+protected:
   virtual std::string status_str() const;
-
-private:
 
   std::string house_str() const
   {
@@ -72,6 +74,7 @@ private:
         "-";
   }
 
+private:
   HouseCode  house_code {HouseCode::INVALID};
   UnitCode   unit_code {0};
 
@@ -80,27 +83,45 @@ private:
 class Lamp : public Device
 {
 public:
-  Lamp() = default;
-
-  Lamp(const Lamp&) = default;
-
-  explicit Lamp(bool s) :
-    state(s)
+  Lamp() = delete;
+  Lamp(const Lamp& lamp)
+    : Device(*(static_cast<const Device*>(&lamp))),
+      state(lamp.state)
   {
-    
+    if (dbg_func_trace)
+    {
+      std::cout << "Lamp::Lamp(const Lamp& <"
+                  << device_name() << ", " 
+                  << (state ? "true" : "false") 
+                << ">)" << std::endl;
+    }
   }
 
   Lamp(const Device& device, bool s) :
     Device {device},
     state {s}
   {
+    if (dbg_func_trace)
+    {
+      std::cout << "Lamp::Lamp("
+                  << device_name() << ", " 
+                  << (s ? "true" : "false") 
+                << ")" << std::endl;
+    }
 
   }
 
-  Lamp(HouseCode  hcode, UnitCode   ucode) :
+  Lamp(HouseCode  hcode, UnitCode ucode) :
     Device {hcode, ucode},
     state {false}
   {
+    if (dbg_func_trace)
+    {
+      std::cout << "Lamp::Lamp(" 
+                  << house_str() << ", " 
+                  << unit_str()
+                << ")" << std::endl;
+    }
 
   }
 
@@ -113,10 +134,10 @@ public:
   void      on();
   void      off();
 
-  void      status() const override;
-  std::string status_str() const override;
-
   ~Lamp();
+
+protected:
+  std::string status_str() const override;
 
 private:
   bool      state {false};

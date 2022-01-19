@@ -5,23 +5,21 @@
 
 namespace Home {
 
-void Device::set_id(const std::pair<HouseCode, UnitCode>& id)
-{
-  house_code = id.first;
-  unit_code  = id.second;
-}
-
-void Device::set_id(HouseCode house_code, UnitCode unit_code)
-{
-  this->house_code = house_code;
-  this->unit_code = unit_code;
-}
+// void Device::set_id(const std::pair<HouseCode, UnitCode>& id)
+// {
+//   house_code = id.first;
+//   unit_code  = id.second;
+// }
+// 
+// void Device::set_id(HouseCode house_code, UnitCode unit_code)
+// {
+//   this->house_code = house_code;
+//   this->unit_code = unit_code;
+// }
 
 void Device::status() const
 {
-  std::cout << "Device: "
-            << status_str()
-            << std::endl;
+  std::cout << type() << " ( " << status_str() << " )" << std::endl;
 }
 
 std::string Device::status_str() const
@@ -29,28 +27,18 @@ std::string Device::status_str() const
   return std::string("HouseCode: ") + house_str() + std::string(", UnitCode: ") + unit_str();
 }
 
-void Lamp::status() const
-{
-  std::cout << "Lamp: "
-            << Device::status_str()
-            << ", "
-            << status_str()
-            << std::endl;
-}
-
 std::string Lamp::status_str() const
 {
-  return std::string("State: ") + ((state) ? "On" : "Off");
+  return Device::status_str() + ", " + 
+         std::string("State: ") + ((state) ? "On" : "Off");
 }
 
 Lamp Lamp::make_rand_lamp()
 {
   return Lamp {
-      {  static_cast<HouseCode>((rand()%16)+1), 
-        static_cast<UnitCode>((rand()%4)+1)
-      },
-      false
-    };
+           static_cast<HouseCode>((rand()%16)+1), 
+           static_cast<UnitCode>((rand()%4)+1)
+         };
 }
 
 
@@ -73,9 +61,11 @@ void Lamp::off()
 
 Lamp::~Lamp()
 {
-  std::cout << "Lamp::" << type() << "(" << device_name() << ") has been destroyed." << std::endl;
+  if (dbg_func_trace)
+  {
+    std::cout << "~Lamp::" << type() << " ( " << device_name() << " )" << std::endl;
+  }
 }
-
 
 
 // Room
@@ -142,9 +132,6 @@ void Room::status()
   }
 
 }
-
-
-
 
 
 }

@@ -34,13 +34,13 @@ public:
     return house_code != HouseCode::INVALID && unit_code != 0;
   }
 
-  char houseName() {
+  char houseName() const {
     if (house_code == HouseCode::INVALID) return '-';
 
     return static_cast<int>(house_code) - static_cast<int>(HouseCode::A) + 'A';
   };
 
-  std::string device_name()
+  std::string device_name() const
   {
     std::string house_name { houseName() };
     std::string unit_code_str = 
@@ -51,7 +51,7 @@ public:
     return house_name + unit_code_str;
   }
 
-  std::pair<HouseCode, UnitCode> id()
+  std::pair<HouseCode, UnitCode> id() const
   {
     return std::pair<HouseCode, UnitCode>(house_code, unit_code);
   }
@@ -59,7 +59,7 @@ public:
   void set_id(const std::pair<HouseCode, UnitCode>& id);
   void set_id(HouseCode house_code, UnitCode unit_code);
 
-  virtual void status();
+  virtual void status() const;
 
 private:
   HouseCode  house_code {HouseCode::INVALID};
@@ -96,7 +96,7 @@ public:
   void      on();
   void      off();
 
-  void      status() override;
+  void      status() const override;
 
   ~Lamp();
 

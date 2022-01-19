@@ -17,13 +17,13 @@ void Device::set_id(HouseCode house_code, UnitCode unit_code)
   this->unit_code = unit_code;
 }
 
-void Device::status()
+void Device::status() const
 {
   std::cout << "House Code: " << houseName() << std::endl
             << "Unit Code:  " << static_cast<int>(unit_code) << std::endl;
 }
 
-void Lamp::status()
+void Lamp::status() const
 {
   Device::status();
   std::cout << "State:      " << ((state) ? "On" : "Off") << std::endl;

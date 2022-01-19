@@ -33,9 +33,10 @@ void Lamp::status() const
 Lamp Lamp::make_rand_lamp()
 {
   return Lamp {
-    {  static_cast<HouseCode>((rand()%16)+1), 
-       static_cast<UnitCode>((rand()%4)+1) },
-    false
+      {  static_cast<HouseCode>((rand()%16)+1), 
+        static_cast<UnitCode>((rand()%4)+1)
+      },
+      false
     };
 }
 

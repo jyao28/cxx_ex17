@@ -5,6 +5,9 @@
 
 #include "device.h"
 
+using Home::Lamp;
+using Home::HouseCode;
+
 constexpr size_t sz {4};
 using LampArray = std::array<Home::Lamp, sz>;
 
@@ -37,6 +40,28 @@ uint num_lamps_on(const LampArray& lamps)
 
   return count;
 }
+
+// Ex8 tests
+void lamp_status(Lamp lamp)
+{
+  lamp.status();
+}
+
+void lamp_status_r(Lamp& lamp)
+{
+  lamp.status();
+}
+
+void lamp_status_r(const Lamp* lamp)
+{
+  lamp->status();
+}
+
+void lamp_status_cr(const Lamp& lamp)
+{
+  lamp.status();
+}
+////////////////////
 
 int main()
 {
@@ -81,6 +106,38 @@ int main()
   all_lamps_on(lamps);
 
   std::cout << "Number of lamps ON: " << num_lamps_on(lamps) << std::endl;
+  }
+
+ 
+  // Ex8
+  {
+    std::cout << "Ex8 -- ---------------------" << std::endl;
+    {
+      std::cout << "Ex8.1  ---------------------" << std::endl;
+      Home::Lamp lamp = Home::Lamp::make_rand_lamp();
+      lamp_status(lamp);
+    }
+
+
+    std::cout << "    Ex8.2  ---------------------" << std::endl;
+    {
+      Home::Lamp lampr = Home::Lamp::make_rand_lamp();
+      lamp_status_r(&lampr);
+    }
+
+    std::cout << "    Ex8.3  ---------------------" << std::endl;
+    {
+      Home::Lamp lampr = Home::Lamp::make_rand_lamp();
+      lamp_status_r(lampr);
+    }
+
+    std::cout << "    Ex8.4  ---------------------" << std::endl;
+    {
+      Home::Lamp lampr = Home::Lamp::make_rand_lamp();
+      lamp_status_cr(lampr);
+    }
+
+
   }
 
   return 0;

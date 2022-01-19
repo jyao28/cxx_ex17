@@ -1,7 +1,9 @@
 #pragma once
 #include <cstdint>
 #include <string>
+#include <string_view>
 #include <utility>
+#include <array>
 
 namespace Home {
 
@@ -10,6 +12,8 @@ enum class HouseCode
 { 
   INVALID, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P
 };
+
+using House = HouseCode;
 
 using UnitCode = std::uint8_t;
 
@@ -34,21 +38,9 @@ public:
     return house_code != HouseCode::INVALID && unit_code != 0;
   }
 
-  char houseName() const {
-    if (house_code == HouseCode::INVALID) return '-';
-
-    return static_cast<int>(house_code) - static_cast<int>(HouseCode::A) + 'A';
-  };
-
   std::string device_name() const
   {
-    std::string house_name { houseName() };
-    std::string unit_code_str = 
-      (unit_code >= 1 && unit_code <= 16) ?
-        std::to_string(unit_code) :
-        "-";
-
-    return house_name + unit_code_str;
+    return house_str() + unit_str();
   }
 
   std::pair<HouseCode, UnitCode> id() const
@@ -61,7 +53,25 @@ public:
 
   virtual void status() const;
 
+  virtual std::string status_str() const;
+
 private:
+
+  std::string house_str() const
+  {
+    if (house_code == HouseCode::INVALID) return "-";
+
+    char c = static_cast<int>('A') + static_cast<int>(house_code) - static_cast<int>(HouseCode::A);
+    return { c };
+  }
+
+  std::string unit_str() const
+  {
+     return (unit_code >= 1 && unit_code <= 16) ?
+        std::to_string(unit_code) :
+        "-";
+  }
+
   HouseCode  house_code {HouseCode::INVALID};
   UnitCode   unit_code {0};
 
@@ -87,6 +97,13 @@ public:
 
   }
 
+  Lamp(HouseCode  hcode, UnitCode   ucode) :
+    Device {hcode, ucode},
+    state {false}
+  {
+
+  }
+
   std::string type() const override { return "Lamp"; }
 
   //static std::unique_ptr<Lamp> create();
@@ -97,6 +114,7 @@ public:
   void      off();
 
   void      status() const override;
+  std::string status_str() const override;
 
   ~Lamp();
 
@@ -104,5 +122,30 @@ private:
   bool      state {false};
 
 };
+
+
+class Room
+{
+public:
+  Room() = delete;
+  Room(const char* name) : name(name) {}
+  Room(const Room&) = delete;
+
+  bool add(Device& device);
+  void all_off();
+  void all_on();
+  void set_name(const char* name);
+  void status();
+
+private:
+  std::string_view name;
+  static constexpr unsigned dsz {4};
+  using DeviceList = std::array<Device*, dsz>;
+  DeviceList devices;
+  unsigned device_count {0};
+
+};
+
+
 
 }

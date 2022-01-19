@@ -1,9 +1,11 @@
 #include <iostream>
 #include "device.h"
+#include "Events.h"
 
 #include "ex.h"
 
 using Home::Lamp;
+using Timing::Instant;
 
 // Ex8 tests
 void lamp_status(Lamp lamp)
@@ -56,3 +58,43 @@ void test_pass_by()
 
 }
 ////////////////////
+
+
+
+// Ex10
+
+void test_ex10()
+{
+  std::cout << "Ex10  ---------------------" << std::endl;
+
+  Home::Lamp desk_lamp { Home::House::A, 2 };
+  Home::Lamp standard_lamp { Home::House::A, 3 };
+  Home::Lamp bedside_lamp { Home::House::B, 1 };
+
+  Home::Room lounge { "Lounge" };
+  lounge.add(desk_lamp);
+  lounge.add(standard_lamp);
+
+  Home::Room bedroom { "Bedroom" };
+  bedroom.add(bedside_lamp);
+
+  Timing::EventList events { };
+
+  events.add_event(Timing::Instant { 0, 1 },
+                   Timing::Instant { 0, 10 },
+                   lounge);
+
+  events.add_event(Timing::Instant { 0, 5 },
+                   Timing::Instant { 0, 10 },
+                   bedroom);
+
+  lounge.status();
+  bedroom.status();
+
+  events.update_time(Timing::Instant { 0,  0 });  // Ignored.
+  events.update_time(Timing::Instant { 0,  1 });  // Room A lights on.
+  events.update_time(Timing::Instant { 0,  3 });  // Ignored.
+  events.update_time(Timing::Instant { 0,  5 });  // Room B lights on.
+  events.update_time(Timing::Instant { 0, 10 });  // All lights off.
+}
+

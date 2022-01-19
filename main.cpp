@@ -45,6 +45,7 @@ uint num_lamps_on(const LampArray& lamps)
 
 int main()
 {
+#if 0
   // initialize random seed
   srand (clock());
 
@@ -65,7 +66,9 @@ int main()
   lamp2.off();
   lamp3.on();
   }
+#endif
 
+#if 0
   {
   std::cout << "Ex4 ------------------------" << std::endl;
   LampArray lamps { {
@@ -87,9 +90,17 @@ int main()
 
   std::cout << "Number of lamps ON: " << num_lamps_on(lamps) << std::endl;
   }
+#endif
 
+#if 0
   // Ex8
   test_pass_by();
+#endif
+
+#if 1
+  // Ex10
+  test_ex10();
+#endif
 
   return 0;
 }

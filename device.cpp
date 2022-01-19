@@ -43,13 +43,25 @@ Lamp Lamp::make_rand_lamp()
 void Lamp::on()
 {
   state = true;
-  std::cout << "Lamp(" << device_name() << ") has been turned ON." << std::endl;
+  if (is_valid())
+  {
+    std::cout << type() << "(" << device_name() << ") has been turned ON." << std::endl;
+  }
 }
 void Lamp::off()
 {
   state = false;
-  std::cout << "Lamp(" << device_name() << ") has been turned OFF." << std::endl;
+  if (is_valid())
+  {
+    std::cout << type() << "(" << device_name() << ") has been turned OFF." << std::endl;
+  }
 }
+
+Lamp::~Lamp()
+{
+  std::cout << type() << "(" << device_name() << ") has been destroyed." << std::endl;
+}
+
 
 }
 

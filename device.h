@@ -27,6 +27,13 @@ public:
     
   }
 
+  virtual std::string type() const { return "Device"; }
+
+  bool is_valid() const 
+  {
+    return house_code != HouseCode::INVALID && unit_code != 0;
+  }
+
   char houseName() {
     if (house_code == HouseCode::INVALID) return '-';
 
@@ -67,6 +74,12 @@ public:
 
   Lamp(const Lamp&) = default;
 
+  explicit Lamp(bool s) :
+    state(s)
+  {
+    
+  }
+
   Lamp(const Device& device, bool s) :
     Device {device},
     state {s}
@@ -74,6 +87,7 @@ public:
 
   }
 
+  std::string type() const override { return "Lamp"; }
 
   //static std::unique_ptr<Lamp> create();
   static Lamp make_rand_lamp();
@@ -83,6 +97,8 @@ public:
   void      off();
 
   void      status() override;
+
+  ~Lamp();
 
 private:
   bool      state {false};

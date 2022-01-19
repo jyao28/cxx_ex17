@@ -59,7 +59,7 @@ void Lamp::off()
 
 Lamp::~Lamp()
 {
-  std::cout << type() << "(" << device_name() << ") has been destroyed." << std::endl;
+  std::cout << "Lamp::" << type() << "(" << device_name() << ") has been destroyed." << std::endl;
 }
 
 

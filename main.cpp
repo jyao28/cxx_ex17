@@ -62,24 +62,22 @@ int main()
   }
 
   {
-  std::cout << "Ex4 ----------" << std::endl;
+  std::cout << "Ex4 ------------------------" << std::endl;
   LampArray lamps { {
       {{Home::HouseCode::A, 1}, false},
       {{Home::HouseCode::B, 1}, false},
       {{Home::HouseCode::C, 3}, false} 
     }
   };
-  // for (auto& lamp : lamps)
-  // {
-  //   lamp = Home::Lamp::make_rand_lamp();
-  //   lamp.off();
-  // }
 
-  std::cout << "Ex6, 7 ----------" << std::endl;
+  std::cout << "Ex6, 7 ---------------------" << std::endl;
 
   lamps[0].set_id(std::pair<Home::HouseCode, Home::UnitCode>(Home::HouseCode::A, 1));
-  lamps[2].off();
+  lamps[2].on();
 
+  std::cout << "Number of lamps ON: " << num_lamps_on(lamps) << std::endl;
+
+  std::cout << "> All lamps ON" << std::endl;
   all_lamps_on(lamps);
 
   std::cout << "Number of lamps ON: " << num_lamps_on(lamps) << std::endl;

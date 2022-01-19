@@ -65,7 +65,7 @@ void test_pass_by()
 
 void test_ex10()
 {
-  std::cout << "Ex10  ---------------------" << std::endl;
+  std::cout << "Ex10  ---- Connecting objects -----------------" << std::endl;
 
   Home::Lamp desk_lamp { Home::House::A, 2 };
   Home::Lamp standard_lamp { Home::House::A, 3 };
@@ -91,10 +91,14 @@ void test_ex10()
   lounge.status();
   bedroom.status();
 
+  std::cout << std::endl;
+
   events.update_time(Timing::Instant { 0,  0 });  // Ignored.
   events.update_time(Timing::Instant { 0,  1 });  // Room A lights on.
   events.update_time(Timing::Instant { 0,  3 });  // Ignored.
   events.update_time(Timing::Instant { 0,  5 });  // Room B lights on.
   events.update_time(Timing::Instant { 0, 10 });  // All lights off.
+
+  std::cout << std::endl;
 }
 

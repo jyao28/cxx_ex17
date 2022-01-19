@@ -19,16 +19,29 @@ void Device::set_id(HouseCode house_code, UnitCode unit_code)
 
 void Device::status() const
 {
-  std::cout << "House Code: " << houseName() << std::endl
-            << "Unit Code:  " << static_cast<int>(unit_code) << std::endl;
+  std::cout << "Device: "
+            << status_str()
+            << std::endl;
+}
+
+std::string Device::status_str() const
+{
+  return std::string("HouseCode: ") + house_str() + std::string(", UnitCode: ") + unit_str();
 }
 
 void Lamp::status() const
 {
-  Device::status();
-  std::cout << "State:      " << ((state) ? "On" : "Off") << std::endl;
+  std::cout << "Lamp: "
+            << Device::status_str()
+            << ", "
+            << status_str()
+            << std::endl;
 }
 
+std::string Lamp::status_str() const
+{
+  return std::string("State: ") + ((state) ? "On" : "Off");
+}
 
 Lamp Lamp::make_rand_lamp()
 {
@@ -64,22 +77,74 @@ Lamp::~Lamp()
 }
 
 
+
+// Room
+bool Room::add(Device& device)
+{
+  if (device_count < devices.size())
+  {
+    devices[device_count] = &device;
+    ++device_count;
+    return true;
+  }
+
+  return false;
 }
 
-///////////////////////////
-// C++ testing
-
-int f1(int x, int)
+void Room::all_off()
 {
-  return x;
+  auto iter = std::begin(devices);
+  unsigned i;
+  for (i=0;
+       i<device_count;
+       ++i, ++iter)
+  {
+    auto lamp = dynamic_cast<Lamp*>(*iter);
+    if (lamp)
+    {
+      lamp->off();
+    }
+  }
 }
 
-int f1(const int& x)
+void Room::all_on()
 {
-  return x+1;
+  auto iter = std::begin(devices);
+  unsigned i;
+  for (i=0;
+       i<device_count;
+       ++i, ++iter)
+  {
+    auto lamp = dynamic_cast<Lamp*>(*iter);
+    if (lamp)
+    {
+      lamp->on();
+    }
+  }
 }
 
-int f2(int x)
+void Room::set_name(const char* name)
 {
-  return f1(x) + f1(2);
+  this->name = name;
+}
+
+void Room::status()
+{
+  std::cout << "Status of Room " << name << std::endl;
+
+  auto iter = std::begin(devices);
+  unsigned i;
+  for (i=0;
+       i<device_count;
+       ++i, ++iter)
+  {
+    (*iter)->status();
+  }
+
+}
+
+
+
+
+
 }

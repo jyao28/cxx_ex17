@@ -3,7 +3,7 @@
 #include <ctime>
 #include <array>
 
-#include "device.h"
+#include "Lamp.h"
 #include "ex.h"
 
 using Home::Lamp;

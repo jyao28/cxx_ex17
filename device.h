@@ -55,6 +55,7 @@ public:
 
   virtual void status() const;
 
+  virtual bool is_on() const = 0;
   virtual void on() = 0;
   virtual void off() = 0;
 

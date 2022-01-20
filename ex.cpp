@@ -1,5 +1,6 @@
 #include <iostream>
-#include "device.h"
+#include "Lamp.h"
+#include "Appliance.h"
 #include "Events.h"
 
 #include "ex.h"
@@ -7,6 +8,7 @@
 
 using Home::Lamp;
 using Home::NamedLamp;
+using Home::Appliance;
 using Timing::Instant;
 using House = Home::HouseCode;
 
@@ -72,11 +74,13 @@ void test_ex10()
 
   Home::Lamp desk_lamp { Home::House::A, 2 };
   Home::NamedLamp standard_lamp { "Sofa Lamp", Home::House::A, 3 };
+  Home::Appliance tv { Home::House::A, 4 };
   Home::Lamp bedside_lamp { Home::House::B, 1 };
 
   Home::Room lounge { "Lounge" };
   lounge.add(desk_lamp);
   lounge.add(standard_lamp);
+  lounge.add(tv);
 
   Home::Room bedroom { "Bedroom" };
   bedroom.add(bedside_lamp);

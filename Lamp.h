@@ -54,11 +54,11 @@ public:
   std::string type() const override { return "Lamp"; }
 
   //static std::unique_ptr<Lamp> create();
-  static Lamp make_rand_lamp();
-
-  bool      is_on() const { return state; }
+  bool      is_on() const override { return state; }
   void      on() override;
   void      off() override;
+
+  static Lamp make_rand_lamp();
 
   ~Lamp() override;
 

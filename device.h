@@ -7,6 +7,8 @@
 #include <array>
 #include <iostream>
 
+#include "Switchable.h"
+
 constexpr bool dbg_func_trace {true};
 
 namespace Home {
@@ -21,7 +23,7 @@ using House = HouseCode;
 
 using UnitCode = std::uint8_t;
 
-class Module
+class Module : public Switchable
 {
 public:
   Module() = delete;
@@ -56,10 +58,6 @@ public:
 
   virtual void status() const;
 
-  virtual bool is_on() const = 0;
-  virtual void on() = 0;
-  virtual void off() = 0;
-
 protected:
   virtual std::string status_str() const;
 
@@ -92,7 +90,7 @@ public:
   Room(const char* name) : name(name) {}
   Room(const Room&) = delete;
 
-  bool add(Module& Module);
+  bool add(Switchable& switchable);
   void all_off();
   void all_on();
 
@@ -105,7 +103,7 @@ public:
 private:
   const std::string_view name;
   static constexpr unsigned dsz {4};
-  using DeviceList = std::array<Module*, dsz>;
+  using DeviceList = std::array<Switchable*, dsz>;
   DeviceList devices;
   unsigned device_count {0};
 

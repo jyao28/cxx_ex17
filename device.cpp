@@ -25,11 +25,11 @@ std::string Module::status_str() const
 
 
 // Room
-bool Room::add(Module& Module)
+bool Room::add(Switchable& switchable)
 {
   if (device_count < devices.size())
   {
-    devices[device_count] = &Module;
+    devices[device_count] = &switchable;
     ++device_count;
     return true;
   }
@@ -71,7 +71,10 @@ void Room::status()
        i<device_count;
        ++i, ++iter)
   {
-    (*iter)->status();
+    if (auto module = dynamic_cast<Module*>(*iter))
+    {
+      module->status();
+    }
   }
 
 }

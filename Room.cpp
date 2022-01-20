@@ -1,35 +1,17 @@
-#include "Device.h"
+#include "Room.h"
 
-#include <iostream>
-#include <cstdlib>
+#include "Switchable.h"
+#include "Module.h"
 
-namespace Home {
-
-Module::~Module()
+namespace Home
 {
-  if (dbg_func_trace)
-  {
-    std::cout << "~Module::Module ( " << module_name() << " )" << std::endl;
-  }
-}
-
-void Module::status() const
-{
-  std::cout << type() << " ( " << status_str() << " )" << std::endl;
-}
-
-std::string Module::status_str() const
-{
-  return std::string("HouseCode: ") + house_str() + std::string(", UnitCode: ") + unit_str();
-}
-
 
 // Room
-bool Room::add(Module& Module)
+bool Room::add(Switchable& switchable)
 {
   if (device_count < devices.size())
   {
-    devices[device_count] = &Module;
+    devices[device_count] = &switchable;
     ++device_count;
     return true;
   }
@@ -71,10 +53,14 @@ void Room::status()
        i<device_count;
        ++i, ++iter)
   {
-    (*iter)->status();
+    if (auto module = dynamic_cast<Module*>(*iter))
+    {
+      module->status();
+    }
   }
 
 }
+
 
 
 }

@@ -11,3 +11,7 @@ void test_events();
 //ex10
 
 void test_ex10();
+
+// ex11
+
+void test_ex11();

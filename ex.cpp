@@ -4,8 +4,11 @@
 
 #include "ex.h"
 
+
 using Home::Lamp;
+using Home::NamedLamp;
 using Timing::Instant;
+using House = Home::HouseCode;
 
 // Ex8 tests
 void lamp_status(Lamp lamp)
@@ -61,14 +64,14 @@ void test_pass_by()
 
 
 
-// Ex10
+// Ex10-a
 
 void test_ex10()
 {
   std::cout << "Ex10  ---- Connecting objects -----------------" << std::endl;
 
   Home::Lamp desk_lamp { Home::House::A, 2 };
-  Home::Lamp standard_lamp { Home::House::A, 3 };
+  Home::NamedLamp standard_lamp { "Sofa Lamp", Home::House::A, 3 };
   Home::Lamp bedside_lamp { Home::House::B, 1 };
 
   Home::Room lounge { "Lounge" };
@@ -102,3 +105,12 @@ void test_ex10()
   std::cout << std::endl;
 }
 
+// Ex11
+void test_ex11()
+{
+  Lamp       lamp1 { House::B, 1 } ;
+  NamedLamp  lamp2  { "Desk lamp", House::A, 1 } ;
+
+  lamp1.on();  //  <= “ Lamp(B 1) has been turned on.”
+  lamp2.on();  // <= “Desk lamp: Lamp(A1) has been turned on.”  
+}

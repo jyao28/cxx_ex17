@@ -34,6 +34,8 @@ public:
     
   }
 
+  virtual ~Device() {};
+
   virtual std::string type() const { return "Device"; }
 
   bool is_valid() const 
@@ -135,7 +137,7 @@ public:
   void      on();
   void      off();
 
-  ~Lamp();
+  ~Lamp() override;
 
 protected:
   std::string status_str() const override;
@@ -144,6 +146,7 @@ private:
   bool      state {false};
 
 };
+
 
 
 class Room

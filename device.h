@@ -20,32 +20,32 @@ using House = HouseCode;
 
 using UnitCode = std::uint8_t;
 
-class Device
+class Module
 {
 public:
-  Device() = delete;
+  Module() = delete;
 
-  Device(const Device& device) = default;
+  Module(const Module& Module) = default;
 
-  Device(HouseCode  hcode, UnitCode   ucode) :
+  Module(HouseCode  hcode, UnitCode   ucode) :
     house_code {hcode},
     unit_code  {ucode}
   {
     
   }
 
-  virtual ~Device() {};
+  virtual ~Module() {};
 
-  virtual std::string type() const { return "Device"; }
+  virtual std::string type() const { return "Module"; }
 
   bool is_valid() const 
   {
     return house_code != HouseCode::INVALID && unit_code != 0;
   }
 
-  std::string device_name() const
+  std::string module_name() const
   {
-    return house_str() + unit_str();
+    return house_str() + ' ' + unit_str();
   }
 
   std::pair<HouseCode, UnitCode> id() const
@@ -53,7 +53,11 @@ public:
     return std::pair<HouseCode, UnitCode>(house_code, unit_code);
   }
 
-  void status() const;
+  virtual void status() const;
+
+  virtual void on() = 0;
+  virtual void off() = 0;
+
 
   //void set_id(const std::pair<HouseCode, UnitCode>& id);
   //void set_id(HouseCode house_code, UnitCode unit_code);
@@ -82,31 +86,31 @@ private:
 
 };
 
-class Lamp : public Device
+class Lamp : public Module
 {
 public:
   Lamp() = delete;
   Lamp(const Lamp& lamp)
-    : Device(*(static_cast<const Device*>(&lamp))),
+    : Module(*(static_cast<const Module*>(&lamp))),
       state(lamp.state)
   {
     if (dbg_func_trace)
     {
       std::cout << "Lamp::Lamp(const Lamp& <"
-                  << device_name() << ", " 
+                  << module_name() << ", " 
                   << (state ? "true" : "false") 
                 << ">)" << std::endl;
     }
   }
 
-  Lamp(const Device& device, bool s) :
-    Device {device},
+  Lamp(const Module& module, bool s) :
+    Module {module},
     state {s}
   {
     if (dbg_func_trace)
     {
       std::cout << "Lamp::Lamp("
-                  << device_name() << ", " 
+                  << module_name() << ", " 
                   << (s ? "true" : "false") 
                 << ")" << std::endl;
     }
@@ -114,7 +118,7 @@ public:
   }
 
   Lamp(HouseCode  hcode, UnitCode ucode, bool s=false) :
-    Device {hcode, ucode},
+    Module {hcode, ucode},
     state {s}
   {
     if (dbg_func_trace)
@@ -134,8 +138,8 @@ public:
   static Lamp make_rand_lamp();
 
   bool      is_on() const { return state; }
-  void      on();
-  void      off();
+  void      on() override;
+  void      off() override;
 
   ~Lamp() override;
 
@@ -147,7 +151,41 @@ private:
 
 };
 
+class NamedLamp : public Lamp
+{
+public:
+  NamedLamp(const char* name, HouseCode  hcode, UnitCode ucode, bool s=false) :
+    Lamp(hcode, ucode, s),
+    name(name)
+  {
+    if (dbg_func_trace)
+    {
+      std::cout << "NamedLamp::NamedLamp(" 
+                  << name << ", "
+                  << house_str() << ", " 
+                  << unit_str() << ", "
+                  << (s ? "true" : "false") 
+                << ")" << std::endl;
+    }
+  }
 
+  std::string type() const override { return "NamedLamp"; }
+
+  void status() const override;
+  void on() override;
+  void off() override;
+
+  const std::string_view& lamp_name() const
+  {
+    return name;
+  }
+
+  ~NamedLamp() override {};
+
+private:
+  std::string_view name;
+
+};
 
 class Room
 {
@@ -156,7 +194,7 @@ public:
   Room(const char* name) : name(name) {}
   Room(const Room&) = delete;
 
-  bool add(Device& device);
+  bool add(Module& Module);
   void all_off();
   void all_on();
 
@@ -169,7 +207,7 @@ public:
 private:
   const std::string_view name;
   static constexpr unsigned dsz {4};
-  using DeviceList = std::array<Device*, dsz>;
+  using DeviceList = std::array<Module*, dsz>;
   DeviceList devices;
   unsigned device_count {0};
 

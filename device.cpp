@@ -1,35 +1,35 @@
-#include "device.h"
+#include "Device.h"
 
 #include <iostream>
 #include <cstdlib>
 
 namespace Home {
 
-// void Device::set_id(const std::pair<HouseCode, UnitCode>& id)
+// void Module::set_id(const std::pair<HouseCode, UnitCode>& id)
 // {
 //   house_code = id.first;
 //   unit_code  = id.second;
 // }
 // 
-// void Device::set_id(HouseCode house_code, UnitCode unit_code)
+// void Module::set_id(HouseCode house_code, UnitCode unit_code)
 // {
 //   this->house_code = house_code;
 //   this->unit_code = unit_code;
 // }
 
-void Device::status() const
+void Module::status() const
 {
   std::cout << type() << " ( " << status_str() << " )" << std::endl;
 }
 
-std::string Device::status_str() const
+std::string Module::status_str() const
 {
   return std::string("HouseCode: ") + house_str() + std::string(", UnitCode: ") + unit_str();
 }
 
 std::string Lamp::status_str() const
 {
-  return Device::status_str() + ", " + 
+  return Module::status_str() + ", " + 
          std::string("State: ") + ((state) ? "ON" : "OFF");
 }
 
@@ -47,7 +47,7 @@ void Lamp::on()
   state = true;
   if (is_valid())
   {
-    std::cout << type() << "(" << device_name() << ") has been turned ON." << std::endl;
+    std::cout << "Lamp" << "(" << module_name() << ") has been turned ON." << std::endl;
   }
 }
 void Lamp::off()
@@ -55,7 +55,7 @@ void Lamp::off()
   state = false;
   if (is_valid())
   {
-    std::cout << type() << "(" << device_name() << ") has been turned OFF." << std::endl;
+    std::cout << "Lamp" << "(" << module_name() << ") has been turned OFF." << std::endl;
   }
 }
 
@@ -63,17 +63,34 @@ Lamp::~Lamp()
 {
   if (dbg_func_trace)
   {
-    std::cout << "~Lamp::" << type() << " ( " << device_name() << " )" << std::endl;
+    std::cout << "~Lamp::" << type() << " ( " << module_name() << " )" << std::endl;
   }
 }
 
+// NamedLamp
+void NamedLamp::status() const
+{
+  Lamp::status();
+}
+
+void NamedLamp::on()
+{
+  std::cout << lamp_name() << " : ";
+  Lamp::on();
+}
+
+void NamedLamp::off()
+{
+  std::cout << lamp_name() << " : ";
+  Lamp::off();
+}
 
 // Room
-bool Room::add(Device& device)
+bool Room::add(Module& Module)
 {
   if (device_count < devices.size())
   {
-    devices[device_count] = &device;
+    devices[device_count] = &Module;
     ++device_count;
     return true;
   }

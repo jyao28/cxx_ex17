@@ -30,7 +30,7 @@ std::string Device::status_str() const
 std::string Lamp::status_str() const
 {
   return Device::status_str() + ", " + 
-         std::string("State: ") + ((state) ? "On" : "Off");
+         std::string("State: ") + ((state) ? "ON" : "OFF");
 }
 
 Lamp Lamp::make_rand_lamp()
@@ -111,11 +111,6 @@ void Room::all_on()
       lamp->on();
     }
   }
-}
-
-void Room::set_name(const char* name)
-{
-  this->name = name;
 }
 
 void Room::status()

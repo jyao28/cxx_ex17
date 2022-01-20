@@ -111,15 +111,16 @@ public:
 
   }
 
-  Lamp(HouseCode  hcode, UnitCode ucode) :
+  Lamp(HouseCode  hcode, UnitCode ucode, bool s=false) :
     Device {hcode, ucode},
-    state {false}
+    state {s}
   {
     if (dbg_func_trace)
     {
       std::cout << "Lamp::Lamp(" 
                   << house_str() << ", " 
-                  << unit_str()
+                  << unit_str() << ", "
+                  << (s ? "true" : "false") 
                 << ")" << std::endl;
     }
 
@@ -155,11 +156,15 @@ public:
   bool add(Device& device);
   void all_off();
   void all_on();
-  void set_name(const char* name);
+
+  //void set_name(const char* name)
+  //{
+  //  this->name = name;
+  //}
   void status();
 
 private:
-  std::string_view name;
+  const std::string_view name;
   static constexpr unsigned dsz {4};
   using DeviceList = std::array<Device*, dsz>;
   DeviceList devices;

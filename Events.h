@@ -55,6 +55,5 @@ private:
   unsigned events_count {0};
   
 };
-//extern std::array<Event, 16> g_event_list;
 
 }

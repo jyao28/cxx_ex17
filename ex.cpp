@@ -1,10 +1,10 @@
+#include "ex.h"
+
 #include <iostream>
 #include "Lamp.h"
 #include "Appliance.h"
+#include "Room.h"
 #include "Events.h"
-
-#include "ex.h"
-
 
 using Home::Lamp;
 using Home::NamedLamp;

@@ -54,12 +54,13 @@ void Room::status()
     std::cout << "Status of Room "<< std::endl;
   }
 
-  auto is_on = [](Switchable* s) -> bool
-  {
-    return (s->is_on());
-  };
+  // auto is_on = [](Switchable* s) -> bool
+  // {
+  //   return (s->is_on());
+  // };
 
   //std::ptrdiff_t count = std::count_if(devices.begin(), devices.end(), is_on);
+  
   std::ptrdiff_t count = std::count_if(devices.begin(), devices.end(), Functor_is_on{});
 
   std::cout << "there are " << count << " devices on and "

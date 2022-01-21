@@ -103,8 +103,16 @@ void test_ex10()
   events.update_time(Timing::Instant { 0,  0 });  // Ignored.
   events.update_time(Timing::Instant { 0,  1 });  // Room A lights on.
   events.update_time(Timing::Instant { 0,  3 });  // Ignored.
+
+  lounge.status();
+
   events.update_time(Timing::Instant { 0,  5 });  // Room B lights on.
+
+  bedroom.status();
   events.update_time(Timing::Instant { 0, 10 });  // All lights off.
+
+  lounge.status();
+  bedroom.status();
 
   std::cout << std::endl;
 }

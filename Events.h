@@ -1,8 +1,9 @@
 #pragma once
 
 #include <iostream>
-#include <array>
 #include <memory>
+//#include <array>
+#include <vector>
 
 namespace Home {
   class Room;
@@ -46,14 +47,17 @@ private:
 class EventList
 {
 public:
+  EventList()
+  {
+    events.reserve(6);
+  }
+  
   bool add_event(const Instant& on, const Instant& off, Home::Room& room);
   void update_time(const Instant& time);
 
 private:
-  static constexpr unsigned sz {16};
-  using EventArray = std::array<std::unique_ptr<Event>, sz>;
+  using EventArray = std::vector<std::unique_ptr<Event>>;
   EventArray events; 
-  unsigned events_count {0};
   
 };
 

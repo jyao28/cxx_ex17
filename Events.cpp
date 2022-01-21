@@ -52,7 +52,6 @@ void Event::do_action(const Instant& inst)
 Event::Event(const Instant& inst_on, const Instant& inst_off, Room& room)
   : on(inst_on), off(inst_off), room(&room)
 {
-
 }
 
 void Event::update(const Instant& time)
@@ -70,16 +69,12 @@ void Event::update(const Instant& time)
   }
 }
 
+
+
 bool EventList::add_event(const Instant& on, const Instant& off, Home::Room& room)
 {
-  if (events_count < events.size())
-  {
-    events[events_count] = std::make_unique<Event>(on, off, room);
-    ++events_count;
-    return true;
-  }
-
-  return false;
+  events.emplace_back(std::make_unique<Event>(on, off, room));
+  return true;
 }
 
 void EventList::update_time(const Instant& time)

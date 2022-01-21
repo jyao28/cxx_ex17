@@ -3,6 +3,8 @@
 #include "Switchable.h"
 #include "Module.h"
 
+#include <algorithm>
+
 namespace Home
 {
 
@@ -29,17 +31,37 @@ void Room::all_on()
   }
 }
 
+
+
 void Room::status()
 {
-  std::cout << "Status of Room " << name << std::endl;
-
-  for (auto switchable : devices)
+  if (!name.empty())
   {
-    if (auto module = dynamic_cast<Module*>(switchable))
-    {
-      module->status();
-    }
+    std::cout << "Status of Room " << name << std::endl;
+    std::cout << "In the room " << name << " ";
   }
+  else
+  {
+    std::cout << "Status of Room "<< std::endl;
+  }
+
+  auto is_on = [](Switchable* s) -> bool
+  {
+    return (s->is_on());
+  };
+
+  std::ptrdiff_t count = std::count_if(devices.begin(), devices.end(), is_on);
+
+  std::cout << "there are " << count << " devices on and "
+            << devices.size() - static_cast<size_t>(count) << " devices off" << std::endl;
+
+  // for (auto switchable : devices)
+  // {
+  //   if (auto module = dynamic_cast<Module*>(switchable))
+  //   {
+  //     module->status();
+  //   }
+  // }
 }
 
 }

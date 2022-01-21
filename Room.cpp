@@ -9,37 +9,23 @@ namespace Home
 // Room
 bool Room::add(Switchable& switchable)
 {
-  if (device_count < devices.size())
-  {
-    devices[device_count] = &switchable;
-    ++device_count;
-    return true;
-  }
-
-  return false;
+  devices.emplace_back(&switchable);
+  return true;
 }
 
 void Room::all_off()
 {
-  auto iter = std::begin(devices);
-  unsigned i;
-  for (i=0;
-       i<device_count;
-       ++i, ++iter)
+  for (auto switchable : devices)
   {
-    (*iter)->off();
+    switchable->off();
   }
 }
 
 void Room::all_on()
 {
-  auto iter = std::begin(devices);
-  unsigned i;
-  for (i=0;
-       i<device_count;
-       ++i, ++iter)
+  for (auto switchable : devices)
   {
-    (*iter)->on();
+    switchable->on();
   }
 }
 
@@ -47,20 +33,13 @@ void Room::status()
 {
   std::cout << "Status of Room " << name << std::endl;
 
-  auto iter = std::begin(devices);
-  unsigned i;
-  for (i=0;
-       i<device_count;
-       ++i, ++iter)
+  for (auto switchable : devices)
   {
-    if (auto module = dynamic_cast<Module*>(*iter))
+    if (auto module = dynamic_cast<Module*>(switchable))
     {
       module->status();
     }
   }
-
 }
-
-
 
 }

@@ -2,7 +2,8 @@
 
 // #include "Switchable"
 #include <string_view>
-#include <array>
+//#include <array>
+#include <vector>
 
 
 namespace Home
@@ -14,7 +15,7 @@ class Room
 {
 public:
   Room() = delete;
-  Room(const char* name) : name(name) {}
+  Room(const char* name) : name(name) { devices.reserve(4); }
   Room(const Room&) = delete;
 
   bool add(Switchable& switchable);
@@ -29,10 +30,8 @@ public:
 
 private:
   const std::string_view name;
-  static constexpr unsigned dsz {4};
-  using DeviceList = std::array<Switchable*, dsz>;
+  using DeviceList = std::vector<Switchable*>;
   DeviceList devices;
-  unsigned device_count {0};
 
 };
 

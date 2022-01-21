@@ -8,6 +8,15 @@
 namespace Home
 {
 
+class Functor_is_on
+{
+public:
+  bool operator()(Switchable* s)
+  {
+    return s->is_on();
+  }
+};
+
 // Room
 bool Room::add(Switchable& switchable)
 {
@@ -50,7 +59,8 @@ void Room::status()
     return (s->is_on());
   };
 
-  std::ptrdiff_t count = std::count_if(devices.begin(), devices.end(), is_on);
+  //std::ptrdiff_t count = std::count_if(devices.begin(), devices.end(), is_on);
+  std::ptrdiff_t count = std::count_if(devices.begin(), devices.end(), Functor_is_on{});
 
   std::cout << "there are " << count << " devices on and "
             << devices.size() - static_cast<size_t>(count) << " devices off" << std::endl;

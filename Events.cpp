@@ -81,14 +81,7 @@ void EventList::update_time(const Instant& time)
 {
   for ( auto& event : events)
   {
-    if (event)
-    {
-      event->update(time);
-    }
-    else
-    {
-      break;
-    }
+    event->update(time);
   }
 }
 

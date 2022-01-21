@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Module.h"
+#include <string_view>
 
 namespace Home
 {
@@ -8,9 +9,10 @@ namespace Home
 class Appliance : public Module
 {
 public:
-  Appliance(HouseCode  hcode, UnitCode ucode, bool s=false) :
+  Appliance(const char* name, HouseCode  hcode, UnitCode ucode, bool s=false) :
     Module {hcode, ucode},
-    state {s}
+    state {s},
+    name(name)
   {
     if (dbg_func_trace)
     {
@@ -34,6 +36,7 @@ public:
 private:
   virtual std::string status_str() const;
 
+  std::string_view name;
   bool state;
 };
 

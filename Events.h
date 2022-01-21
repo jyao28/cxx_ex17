@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <array>
+#include <memory>
 
 namespace Home {
   class Room;
@@ -50,7 +51,7 @@ public:
 
 private:
   static constexpr unsigned sz {16};
-  using EventArray = std::array<Event, sz>;
+  using EventArray = std::array<std::unique_ptr<Event>, sz>;
   EventArray events; 
   unsigned events_count {0};
   

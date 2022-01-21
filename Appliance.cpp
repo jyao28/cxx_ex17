@@ -16,6 +16,8 @@ void Appliance::on()
   state = true;
   if (is_valid())
   {
+    if (!name.empty())
+      std::cout << name << " : ";
     std::cout << "Appliance" << "(" << module_name() << ") has been turned ON." << std::endl;
   }
 }
@@ -25,6 +27,8 @@ void Appliance::off()
   state = false;
   if (is_valid())
   {
+    if (!name.empty())
+      std::cout << name << " : ";
     std::cout << "Appliance" << "(" << module_name() << ") has been turned OFF." << std::endl;
   }
 }

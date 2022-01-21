@@ -74,7 +74,7 @@ void test_ex10()
 
   Home::Lamp desk_lamp { Home::House::A, 2 };
   Home::NamedLamp standard_lamp { "Sofa Lamp", Home::House::A, 3 };
-  Home::Appliance tv { Home::House::A, 4 };
+  Home::Appliance tv { "TV", Home::House::A, 4 };
   Home::Lamp bedside_lamp { Home::House::B, 1 };
 
   Home::Room lounge { "Lounge" };

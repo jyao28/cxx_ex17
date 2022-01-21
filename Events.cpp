@@ -74,7 +74,7 @@ bool EventList::add_event(const Instant& on, const Instant& off, Home::Room& roo
 {
   if (events_count < events.size())
   {
-    events[events_count] = Event{on, off, room};
+    events[events_count] = std::make_unique<Event>(on, off, room);
     ++events_count;
     return true;
   }
@@ -84,13 +84,16 @@ bool EventList::add_event(const Instant& on, const Instant& off, Home::Room& roo
 
 void EventList::update_time(const Instant& time)
 {
-  unsigned int i;
-  EventArray::iterator iter;
-  for ( i=0, iter = events.begin(); 
-        i<events_count;
-        ++i, ++iter)
+  for ( auto& event : events)
   {
-    iter->update(time);
+    if (event)
+    {
+      event->update(time);
+    }
+    else
+    {
+      break;
+    }
   }
 }
 
